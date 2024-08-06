@@ -1,0 +1,196 @@
+type Roles {
+  code: ID!
+  users: [User!]!
+}
+
+type User {
+  _id: ID
+
+  """Tên đăng nhập"""
+  username: String!
+
+  """Mật khẩu"""
+  password: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  """Mô tả"""
+  description: String
+
+  """Trạng thái"""
+  status: String
+
+  """Ảnh Avatar"""
+  img_avatar: String
+
+  """Email"""
+  email: String
+
+  """Ngày sinh"""
+  birth_day: DateTime
+
+  """Vai trò"""
+  roleCode: String
+  role: Roles!
+
+  """Số điện thoại"""
+  phone: String
+
+  """Họ"""
+  first_name: String
+
+  """Tên"""
+  last_name: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserNotPassword {
+  _id: ID
+
+  """Tên đăng nhập"""
+  username: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  """Mô tả"""
+  description: String
+
+  """Trạng thái"""
+  status: String
+
+  """Ảnh Avatar"""
+  img_avatar: String
+
+  """Email"""
+  email: String
+
+  """Ngày sinh"""
+  birth_day: DateTime
+
+  """Vai trò"""
+  roleCode: String
+  role: Roles!
+
+  """Số điện thoại"""
+  phone: String
+
+  """Họ"""
+  first_name: String
+
+  """Tên"""
+  last_name: String
+}
+
+type PaginatedUser {
+  nodes: [UserNotPassword!]
+  total: Int!
+}
+
+type Query {
+  users(filter: FilterUserInputByPage!): PaginatedUser!
+  findByUserName(username: String!): User!
+}
+
+input FilterUserInputByPage {
+  search: FilterUserInput!
+
+  """Bắt đầut từ trang bao nhiêu, mặc định là 1"""
+  page: Int! = 1
+
+  """Số lượng phần tử cần hiển thị , mặc định là 10"""
+  pageSize: Int! = 10
+  sort: String
+  sorts_params: String
+}
+
+input FilterUserInput {
+  """Tên đăng nhập"""
+  username: String
+
+  """Trạng thái"""
+  status: String = "A"
+
+  """Email"""
+  email: String
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): UserNotPassword!
+  updateUser(updateUserInput: UpdateUserInput!): UserNotPassword!
+  removeUser(id: Int!): UserNotPassword!
+}
+
+input CreateUserInput {
+  """Tên đăng nhập"""
+  username: String!
+
+  """Mật khẩu"""
+  password: String!
+
+  """Mô tả"""
+  description: String
+
+  """Trạng thái"""
+  status: String = "A"
+
+  """Ảnh Avatar"""
+  img_avatar: String
+
+  """Email"""
+  email: String
+
+  """Ngày sinh"""
+  birth_day: DateTime
+
+  """Vai trò"""
+  role: String = "ADMIN"
+
+  """Số điện thoại"""
+  phone: String
+
+  """Họ"""
+  first_name: String
+
+  """Tên"""
+  last_name: String
+}
+
+input UpdateUserInput {
+  """Tên đăng nhập"""
+  username: String
+
+  """Mật khẩu"""
+  password: String
+
+  """Mô tả"""
+  description: String
+
+  """Trạng thái"""
+  status: String = "A"
+
+  """Ảnh Avatar"""
+  img_avatar: String
+
+  """Email"""
+  email: String
+
+  """Ngày sinh"""
+  birth_day: DateTime
+
+  """Vai trò"""
+  role: String = "ADMIN"
+
+  """Số điện thoại"""
+  phone: String
+
+  """Họ"""
+  first_name: String
+
+  """Tên"""
+  last_name: String
+  _id: String
+}
